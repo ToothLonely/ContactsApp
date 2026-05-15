@@ -1,16 +1,23 @@
 package dev.toothlonely.contacts.presentation
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import dev.toothlonely.contacts.presentation.screen.ContactsScreen
+import dev.toothlonely.contacts.presentation.screen.HintScreen
 import dev.toothlonely.contacts.presentation.theme.ContactsTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,28 +27,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             ContactsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    val permission = Manifest.permission.READ_CONTACTS
+                    var isGranted by remember {
+                        mutableStateOf(false)
+                    }
+
+                    val launcher = rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.RequestPermission()
+                    ) { answer ->
+                        isGranted = answer
+                    }
+
+                    LaunchedEffect(Unit) {
+                        launcher.launch(permission)
+                    }
+                    if(isGranted) ContactsScreen(modifier = Modifier.padding(innerPadding))
+                    else HintScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ContactsTheme {
-        Greeting("Android")
     }
 }
