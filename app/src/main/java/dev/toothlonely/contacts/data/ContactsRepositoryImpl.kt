@@ -10,10 +10,10 @@ import dev.toothlonely.contacts.domain.ContactsRepository
 class ContactsRepositoryImpl(
     private val contactsProvider: ContactsProvider
 ) : ContactsRepository {
-    override fun getContacts(): List<Contact>? {
+    override fun getContacts(): HashMap<Char, MutableList<Contact>>? {
         val names = contactsProvider.getStructuredNames() ?: return null
         val phones = contactsProvider.getPhoneNumbers() ?: return null
-        val contacts = mutableListOf<Contact>()
+        val contacts = hashMapOf<Char, MutableList<Contact>>()
 
         var counterId = 0L
         for (id in names.keys) {
@@ -23,9 +23,12 @@ class ContactsRepositoryImpl(
                 ContentUris.withAppendedId(Contacts.CONTENT_URI, id),
                 Contacts.Photo.CONTENT_DIRECTORY
             )
+            val currentName = names[id] ?: "*"
 
             for (phone in currentPhones) {
-                contacts.add(
+                contacts.getOrPut(currentName[0]) {
+                    mutableListOf()
+                }.add(
                     Contact(
                         id = counterId++,
                         name = names[id],
@@ -35,7 +38,9 @@ class ContactsRepositoryImpl(
                 )
             }
         }
+
         return contacts
+
     }
 
     override fun getContactInfo(id: String): Contact {
