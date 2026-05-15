@@ -87,14 +87,10 @@ class ContactsProvider(
         return map
     }
 
-    fun openPhoto(contactId: Long): InputStream? {
-        val contactUri =
-            ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId)
-        val photoUri =
-            Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY)
+    fun openPhoto(photoUri: Uri): InputStream? {
         val cursor: Cursor? = contentResolver.query(
             photoUri,
-            arrayOf<String?>(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+            arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
         )
         if (cursor == null) {
             return null
