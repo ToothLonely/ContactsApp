@@ -16,10 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 import dev.toothlonely.contacts.presentation.screen.ContactsScreen
 import dev.toothlonely.contacts.presentation.screen.HintScreen
 import dev.toothlonely.contacts.presentation.theme.ContactsTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

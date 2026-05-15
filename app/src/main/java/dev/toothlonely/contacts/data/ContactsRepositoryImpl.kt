@@ -6,8 +6,9 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.Contacts
 import dev.toothlonely.contacts.domain.Contact
 import dev.toothlonely.contacts.domain.ContactsRepository
+import javax.inject.Inject
 
-class ContactsRepositoryImpl(
+class ContactsRepositoryImpl @Inject constructor(
     private val contactsProvider: ContactsProvider
 ) : ContactsRepository {
     override fun getContacts(): HashMap<Char, MutableList<Contact>>? {

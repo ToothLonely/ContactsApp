@@ -7,7 +7,6 @@ import android.provider.ContactsContract
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
-
 class ContactsProvider(
     private val contentResolver: ContentResolver
 ) {
