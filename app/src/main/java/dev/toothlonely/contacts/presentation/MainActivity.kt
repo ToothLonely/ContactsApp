@@ -1,4 +1,4 @@
-package dev.toothlonely.contacts
+package dev.toothlonely.contacts.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.toothlonely.contacts.ui.theme.ContactsTheme
+import dev.toothlonely.contacts.presentation.theme.ContactsTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
