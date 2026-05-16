@@ -2,14 +2,11 @@ package dev.toothlonely.contacts.data
 
 import android.content.ContentResolver
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 class ContactsProvider(
     private val contentResolver: ContentResolver
@@ -113,44 +110,4 @@ class ContactsProvider(
         }
         return null
     }
-
-    /*    fun getPhotos(): HashMap<Long, ByteArray?>? {
-
-            val projection = arrayOf(
-                ContactsContract.Data.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Photo.PHOTO
-            )
-
-            val selection =
-                "${ContactsContract.Data.MIMETYPE} = ?"
-
-            val selectionArgs = arrayOf(
-                ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
-            )
-
-            val cursor = contentResolver.query(
-                ContactsContract.Data.CONTENT_URI,
-                projection,
-                selection,
-                selectionArgs,
-                sortOrder
-            )
-
-            val map = hashMapOf<Long, ByteArray?>()
-
-            when (cursor?.count) {
-                null -> return null
-                0 -> return map
-                else -> {
-                    cursor.use { cursor ->
-                        val id = cursor.getColumnIndex(projection[0])
-                        val photo = cursor.getColumnIndex(projection[1])
-                        while (cursor.moveToNext()) {
-                            map[cursor.getLong(id)] = cursor.getBlob(photo)
-                        }
-                    }
-                }
-            }
-            return map
-        }*/
 }

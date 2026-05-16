@@ -2,11 +2,9 @@ package dev.toothlonely.contacts.data
 
 import android.content.ContentUris
 import android.net.Uri
-import android.provider.ContactsContract
 import android.provider.ContactsContract.Contacts
 import dev.toothlonely.contacts.domain.Contact
 import dev.toothlonely.contacts.domain.ContactsRepository
-import java.io.InputStream
 import javax.inject.Inject
 
 class ContactsRepositoryImpl @Inject constructor(
