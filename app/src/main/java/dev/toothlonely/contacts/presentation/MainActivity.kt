@@ -1,6 +1,7 @@
 package dev.toothlonely.contacts.presentation
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
 import dagger.hilt.android.AndroidEntryPoint
 import dev.toothlonely.contacts.presentation.screen.ContactsScreen
 import dev.toothlonely.contacts.presentation.screen.HintScreen
@@ -29,22 +31,40 @@ class MainActivity : ComponentActivity() {
         setContent {
             ContactsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val permission = Manifest.permission.READ_CONTACTS
-                    var isGranted by remember {
-                        mutableStateOf(false)
+                    val contactsPermission = Manifest.permission.READ_CONTACTS
+                    val callPermission = Manifest.permission.CALL_PHONE
+
+                    var isContactsGranted by remember {
+                        mutableStateOf(
+                            ActivityCompat.checkSelfPermission(
+                                this, contactsPermission
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
+                    }
+
+                    var isCallGranted by remember {
+                        mutableStateOf(
+                            ActivityCompat.checkSelfPermission(
+                                this, callPermission
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
                     }
 
                     val launcher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.RequestPermission()
+                        contract = ActivityResultContracts.RequestMultiplePermissions()
                     ) { answer ->
-                        isGranted = answer
+                        isCallGranted = answer[callPermission] == true
+                        isContactsGranted = answer[contactsPermission] == true
                     }
 
                     LaunchedEffect(Unit) {
-                        launcher.launch(permission)
+                        launcher.launch(arrayOf(callPermission, contactsPermission))
                     }
-                    if(isGranted) ContactsScreen(modifier = Modifier.padding(innerPadding))
-                    else HintScreen()
+
+                    if (isContactsGranted && isCallGranted)
+                        ContactsScreen(modifier = Modifier.padding(innerPadding))
+                    else
+                        HintScreen(isContactsGranted)
                 }
             }
         }

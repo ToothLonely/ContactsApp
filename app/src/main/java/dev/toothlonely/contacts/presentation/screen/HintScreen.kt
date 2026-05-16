@@ -11,17 +11,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.toothlonely.contacts.R
 
 @Composable
-fun HintScreen() {
+fun HintScreen(isContactsGranted: Boolean) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = stringResource(R.string.ask_permission))
+        Text(
+            text =
+                if (!isContactsGranted) stringResource(R.string.remind_contact_permission)
+                else stringResource(R.string.remind_phone_call_permission)
+        )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun Preview() {
-    HintScreen()
+    HintScreen(true)
 }
