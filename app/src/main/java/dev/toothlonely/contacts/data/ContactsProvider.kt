@@ -2,8 +2,12 @@ package dev.toothlonely.contacts.data
 
 import android.content.ContentResolver
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
@@ -85,19 +89,25 @@ class ContactsProvider(
         return map
     }
 
-    fun openPhoto(photoUri: Uri): InputStream? {
+    fun openPhoto(photoUri: Uri?): ImageBitmap? {
+
+        if (photoUri == null) return null
+
         val cursor: Cursor? = contentResolver.query(
             photoUri,
             arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
         )
-        if (cursor == null) {
-            return null
-        }
+        if (cursor == null) return null
+
         cursor.use { cursor ->
             if (cursor.moveToFirst()) {
                 val data = cursor.getBlob(0)
                 if (data != null) {
-                    return ByteArrayInputStream(data)
+                    return BitmapFactory.decodeByteArray(
+                        data,
+                        0,
+                        data.size
+                    ).asImageBitmap()
                 }
             }
         }

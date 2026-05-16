@@ -6,6 +6,7 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.Contacts
 import dev.toothlonely.contacts.domain.Contact
 import dev.toothlonely.contacts.domain.ContactsRepository
+import java.io.InputStream
 import javax.inject.Inject
 
 class ContactsRepositoryImpl @Inject constructor(
@@ -44,8 +45,6 @@ class ContactsRepositoryImpl @Inject constructor(
 
     }
 
-    override fun getContactInfo(id: String): Contact {
-        TODO("Not yet implemented")
-    }
+    override fun loadPhoto(photo: Uri?) = contactsProvider.openPhoto(photo)
 
 }
