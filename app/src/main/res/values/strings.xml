@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Contacts</string>
+    <string name="photo_description">Contact photo</string>
+    <string name="unknown_name">Без имени</string>
+    <string name="unknown_phone">Нет телефона</string>
+    <string name="ask_permission">Надо разрешить доступ к контактам</string>
 </resources>
