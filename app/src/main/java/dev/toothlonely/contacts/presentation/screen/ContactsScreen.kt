@@ -19,6 +19,7 @@ fun ContactsScreen(modifier: Modifier = Modifier) {
     ContactsList(
         contacts = state.contacts,
         loadPhoto = viewModel::loadPhoto,
+        makeCall = viewModel::makeCall,
         modifier = modifier.background(
             color = MaterialTheme.colorScheme.background
         )

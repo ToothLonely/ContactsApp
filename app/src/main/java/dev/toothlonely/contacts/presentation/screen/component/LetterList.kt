@@ -1,12 +1,11 @@
 package dev.toothlonely.contacts.presentation.screen.component
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,11 @@ import androidx.compose.ui.unit.dp
 import dev.toothlonely.contacts.domain.Contact
 
 @Composable
-fun LetterList(list: List<Contact>, loadPhoto: (photo: Uri?) -> ImageBitmap?) {
+fun LetterList(
+    list: List<Contact>,
+    loadPhoto: (photo: Uri?) -> ImageBitmap?,
+    makeCall: (context: Context, phoneNumber: String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,7 +34,8 @@ fun LetterList(list: List<Contact>, loadPhoto: (photo: Uri?) -> ImageBitmap?) {
                 ContactItem(
                     name = this.name,
                     phoneNumber = this.phone,
-                    photo = loadPhoto(this.photo)
+                    photo = loadPhoto(this.photo),
+                    makeCall = makeCall,
                 )
 
                 if (index < list.lastIndex) {
@@ -52,5 +56,5 @@ fun LetterList(list: List<Contact>, loadPhoto: (photo: Uri?) -> ImageBitmap?) {
 @Composable
 @Preview(showBackground = true)
 private fun Preveiew() {
-    LetterList(emptyList()) { null }
+    LetterList(emptyList(), { null }) { context, phoneNumber -> }
 }

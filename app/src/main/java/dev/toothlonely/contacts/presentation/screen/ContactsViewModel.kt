@@ -1,5 +1,7 @@
 package dev.toothlonely.contacts.presentation.screen
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.InputStream
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
@@ -38,4 +40,11 @@ class ContactsViewModel @Inject constructor(
     }
 
     fun loadPhoto(photo: Uri?) = repository.loadPhoto(photo)
+
+    fun makeCall(context: Context, phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_CALL).apply {
+            data = "tel:$phoneNumber".toUri()
+        }
+        context.startActivity(intent)
+    }
 }
