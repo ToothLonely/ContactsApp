@@ -1,5 +1,6 @@
 package dev.toothlonely.contacts.presentation.screen
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.InputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,4 +36,6 @@ class ContactsViewModel @Inject constructor(
             it.copy(contacts = repository.getContacts() ?: emptyMap())
         }
     }
+
+    fun loadPhoto(photo: Uri?) = repository.loadPhoto(photo)
 }
