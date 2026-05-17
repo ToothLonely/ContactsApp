@@ -81,17 +81,6 @@ fun ContactItem(
             }
         }
 
-        /*        if (isVisible) {
-                    Text(
-                        text = "Номер телефона: ${phoneNumber ?: stringResource(R.string.unknown_phone)}",
-                        modifier = Modifier
-                            .padding(bottom = 10.dp)
-                            .clickable {
-                                if (phoneNumber != null) makeCall(context, phoneNumber)
-                            }
-                    )
-                }*/
-
         AnimatedVisibility(
             visible = isVisible,
             modifier = Modifier
