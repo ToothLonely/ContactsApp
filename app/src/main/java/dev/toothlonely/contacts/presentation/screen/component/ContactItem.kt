@@ -1,6 +1,7 @@
 package dev.toothlonely.contacts.presentation.screen.component
 
 import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,50 +41,67 @@ fun ContactItem(
     val context = LocalContext.current
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 5.dp, horizontal = 5.dp)
                 .clickable {
                     isVisible = !isVisible
                 }
         ) {
-            if (photo != null) Image(
-                bitmap = photo,
-                contentDescription = stringResource(R.string.photo_description),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape)
-            )
-            else Icon(
-                painter = painterResource(R.drawable.default_icon),
-                contentDescription = stringResource(R.string.photo_description),
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .size(60.dp)
-            )
+                    .fillMaxWidth()
+                    .padding(horizontal = 5.dp)
+            ) {
+                if (photo != null) Image(
+                    bitmap = photo,
+                    contentDescription = stringResource(R.string.photo_description),
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                )
+                else Icon(
+                    painter = painterResource(R.drawable.default_icon),
+                    contentDescription = stringResource(R.string.photo_description),
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .size(50.dp)
+                )
 
-            Text(
-                text = name ?: stringResource(R.string.unknown_name),
-                color = MaterialTheme.colorScheme.secondary
-            )
+                Text(
+                    text = name ?: stringResource(R.string.unknown_name),
+                    color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.padding(vertical = 15.dp)
+                )
+            }
         }
 
-        if (isVisible) {
+        /*        if (isVisible) {
+                    Text(
+                        text = "Номер телефона: ${phoneNumber ?: stringResource(R.string.unknown_phone)}",
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .clickable {
+                                if (phoneNumber != null) makeCall(context, phoneNumber)
+                            }
+                    )
+                }*/
+
+        AnimatedVisibility(
+            visible = isVisible,
+            modifier = Modifier
+                .clickable {
+                    if (phoneNumber != null) makeCall(context, phoneNumber)
+                }
+        ) {
+            val prefix = stringResource(R.string.make_call_prefix)
             Text(
-                text = "Номер телефона: ${phoneNumber ?: stringResource(R.string.unknown_phone)}",
-                modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .clickable {
-                        if (phoneNumber != null) makeCall(context, phoneNumber)
-                    }
+                text = "$prefix ${phoneNumber ?: stringResource(R.string.unknown_phone)}",
             )
         }
 

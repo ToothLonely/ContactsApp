@@ -5,4 +5,5 @@
     <string name="unknown_phone">Нет телефона</string>
     <string name="remind_contact_permission">Надо разрешить доступ к контактам</string>
     <string name="remind_phone_call_permission">Надо разрешить доступ к звонкам</string>
+    <string name="make_call_prefix">Номер телефона:</string>
 </resources>

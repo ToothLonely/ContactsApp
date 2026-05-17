@@ -3,6 +3,7 @@ package dev.toothlonely.contacts.presentation.screen.component
 import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,20 +33,16 @@ fun LetterList(
         list.forEachIndexed { index, contact ->
             with(contact) {
                 ContactItem(
-                    name = this.name,
-                    phoneNumber = this.phone,
-                    photo = loadPhoto(this.photo),
+                    name = name,
+                    phoneNumber = phone,
+                    photo = loadPhoto(photo),
                     makeCall = makeCall,
                 )
 
                 if (index < list.lastIndex) {
                     HorizontalDivider(
-                        thickness = 1.dp,
                         color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(
-                            start = 70.dp,
-                            end = 30.dp,
-                        )
+                        modifier = Modifier.padding(start = 70.dp, end = 30.dp)
                     )
                 }
             }
@@ -55,6 +52,6 @@ fun LetterList(
 
 @Composable
 @Preview(showBackground = true)
-private fun Preveiew() {
+private fun Preview() {
     LetterList(emptyList(), { null }) { context, phoneNumber -> }
 }
